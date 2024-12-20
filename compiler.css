@@ -1,0 +1,85 @@
+/* compiler */
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	min-height: 120vh;
+	background-image: url("https://xclcamps.com/wp-content/uploads/coding-difference-1.jpg");
+	
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	
+}
+.codes{
+	margin: auto;
+	text-align: center;
+		padding-top: 100px;
+		
+		
+}
+h1{
+	font-size: 59px;
+	font-weight: 600;
+	color: white;
+}
+.code-row{
+	margin-top: 5%;
+	display: flex;
+	justify-content: space-between;
+	
+}
+.code-column{
+   flex-basis: 31%;
+   background: #7b5df0;
+       border: 2px solid white; 
+   border-radius: 10px;
+   margin-bottom: 5%;
+   padding: 20px 16px;
+   box-sizing: border-box;
+   font-weight: bold;	
+   transition:0.5s;
+}
+h2{
+	text-align: center;
+	font-weight: 600;
+	margin: 10px 0;
+}
+.code-column:hover{
+	
+	box-shadow: 0 0 20px 0px white;
+}
+.bt1{
+	display: inline-block;
+	text-decoration: none;
+	color: white;
+	border: 2px solid white;
+	padding: 12px 34px;
+	font-size: 18px;
+	background:  #b36ff7;
+	position: relative;
+	cursor: pointer;
+}
+.bt2{
+	display: inline-block;
+	text-decoration: none;
+	color: white;
+	border: 2px solid white;
+	padding: 12px 34px;
+	font-size: 18px;
+	background:  #b36ff7;
+	position: relative;
+	cursor: pointer;
+}
+.bt3{
+	display: inline-block;
+	text-decoration: none;
+	color: white;
+	border: 2px solid white;
+	padding: 12px 34px;
+	font-size: 18px;
+	background:  #b36ff7;
+	position: relative;
+	cursor: pointer;
+}

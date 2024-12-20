@@ -1,0 +1,116 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body {
+    min-height: 100vh;
+    background-image: url("gb.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.403); /* Black semi-transparent overlay */
+    z-index: -1; /* Keep it behind the content */
+}
+
+	
+
+
+nav {
+    background-color: #000000;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    height: 65px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin: 0 10px; /* Space between menu items */
+}
+
+nav a {
+    padding: 0 20px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: white;
+    height: 65px;
+    transition: background-color 0.3s ease, padding 0.3s ease; /* Smooth transitions */
+}
+
+nav a:hover {
+	background: linear-gradient(145deg, #ffd700, #ff77a9, #17c964);    padding: 0 25px; /* Slight padding increase on hover */
+    border-radius: 5px;
+}
+
+.text-box{
+	width: 90%;
+		color: #88ff00;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform:translate(-50%,-50%);
+	text-align: center;
+}
+.header2{
+    height: 60px;
+    width: 60px;
+    background-image: url(3.png);
+    background-size: 100% 100%;
+}
+.text-box h1{
+	font-size: 59px;
+}
+.text-box p{
+	margin: 10px 0 40px;
+	font-size: 20px;
+	color:  #ffff00;
+	font-weight: bold;;
+}
+
+.one-button {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    border: 2px solid white;
+    padding: 12px 34px;
+    font-size: 18px;
+	font-weight: 700;
+    background: linear-gradient(145deg, #f6d365, #fda085, #16a085, #f72585); /* Yellow, pink, and green gradient */
+    position: relative;
+    cursor: pointer;
+    border-radius: 30px; /* Smooth rounded edges */
+    box-shadow: 0 0 15px rgba(246, 211, 101, 0.5), 0 0 25px rgba(246, 211, 101, 0.5); /* Glowing effect */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    overflow: hidden; /* To handle shine animation overflow */
+}
+
+.one-button:hover {
+    background: linear-gradient(145deg, #ffd700, #ff77a9, #17c964); /* Brightened yellow, pink, green on hover */
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 40px rgba(255, 119, 169, 0.6); /* Enhanced glow on hover */
+    transition: 0.5s ease-in-out;
+    color: white;
+}
+
+
+

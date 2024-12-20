@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="note.css">
+</head>
+<body>
+    <div class="pg1">
+        <h1>C++</h1>
+   <h1>Templates and Metaprogramming:</h1>
+   <h2>. Variadic templates</h2>
+   <p>A variadic template is defined using the ellipsis (...) syntax. You can use it with both function templates and class templates.<br>
+    Variadic templates in C++ allow you to create functions or classes that can accept any number of template parameters.<br>
+     This is particularly useful for writing generic code that can handle various types and numbers of arguments <br>
+    </p>
+   <h2>Example</h2>
+   <p>Here’s a simple example of a variadic template function that calculates the sum of a variable number of arguments:</p>
+   <div class="code1">
+   <p>#include <iostream><br>
+
+    // Base case: When no arguments are left, return 0 br
+    template<typename T> <br>
+    T sum(T value) { <br>
+        return value; <br>
+    } <br>
+    
+    // Recursive case: Add the first argument to the sum of the remaining arguments <br>
+    template<typename T, typename... Args> <br>
+    T sum(T first, Args... args) { <br>
+        return first + sum(args...); <br>
+    } <br>
+    
+    int main() { <br>
+        std::cout << "Sum of 1, 2, 3: " << sum(1, 2, 3) << std::endl;       // Outputs: 6 <br>
+        std::cout << "Sum of 10, 20, 30, 40: " << sum(10, 20, 30, 40) << std::endl; // Outputs: 100 <br>
+        std::cout << "Sum of 5: " << sum(5) << std::endl;                  // Outputs: 5 <br>
+        return 0; <br>
+    } <br>
+    </p> <br>
+</div>
+   <h2>Explanation</h2>
+   <p>1. Base Case: The sum function template with a single parameter serves as the base case. When there is only <br>
+    one argument left, it simply returns that argument. <br>
+<br>  
+
+    2. Recursive Case: The other sum function template takes one parameter (first) and a variadic number of additional <br>
+     parameters (Args...). It computes the sum by adding first to the result of calling sum with the remaining arguments (args...). <br></p>
+
+     <h2>. Template specialization</h2>
+     <p>
+        Template specialization in C++ allows you to define a specific implementation of a template for a particular type or <br>
+        set of types. This is useful when you need a different behavior for certain types than what the generic template provides. <br>
+        There are two main types of template specialization:
+
+       1. Full Specialization: Provides a completely custom implementation for a specific type. <br>
+       <br>
+       2. Partial Specialization: Allows specialization of certain template parameters while keeping others generic. <br>
+    </p>
+    <h2>Example of Full Specializatio</h2>
+    <p>Here’s a simple example using full specialization for a template class that provides different behavior for int and double types:</p>
+    <div class="code2">
+        <p>#include <iostream> <br>
+
+            // Primary template <br>
+            template <typename T> <br>
+            class Calculator { <br>
+            public: <br>
+                static void printType() { <br>
+                    std::cout << "Generic type" << std::endl; <br>
+                } <br>
+            }; <br>
+            
+            // Full specialization for int <br>
+            template < > <br>
+            class Calculator<int> { <br>
+            public: <br>
+                static void printType() { <br>
+                    std::cout << "Type is int" << std::endl; <br>
+                } <br>
+            }; <br>
+            
+            // Full specialization for double
+            template < > <br>
+            class Calculator<double> { <br>
+            public: <br>
+                static void printType() { <br>
+                    std::cout << "Type is double" << std::endl; <br>
+                } <br>
+            }; <br>
+            
+            int main() { <br>
+                Calculator<char>::printType();   // Outputs: Generic type <br>
+                Calculator<int>::printType();    // Outputs: Type is int <br>
+                Calculator<double>::printType(); // Outputs: Type is double <br>
+                return 0;<br>
+            } <br>
+            </p>
+
+    </div>
+    <h2>Explanation</h2>
+    <p>1. Primary Template: The Pair class template is defined for two generic types T and U. <br>
+  <br>
+     2. Partial Specialization: The specialization for Pair<T, T> defines a custom behavior for when both types are the same. <br>
+       <br> 
+       3. Usage: In the main function, calling show() on instances of Pair with different types demonstrates the use of both the generic and specialized implementations. <br></p>
+
+       <h2>. SFINAE (Substitution Failure Is Not An Error) </h2>
+       <p>SFINAE (Substitution Failure Is Not An Error) is a concept in C++ templates that allows the compiler to ignore certain <br>
+         template specializations if the substitution of template parameters results in an invalid type or expression. Instead of <br>
+         producing a compilation error, the compiler simply discards that particular specialization and looks for other viable options. <br></p>
+         <h2>Example</h2>
+         <p>Here’s a simple example demonstrating SFINAE using std::enable_if to enable a function only for integral types:</p>
+         <div class="code3">
+            #include <iostream> <br>
+                #include <type_traits> <br>
+                
+                // Primary template for a function br
+                template <typename T> <br>
+                typename std::enable_if<std::is_integral<T>::value, void>::type <br>
+                printType(T value) { <br>
+                    std::cout << "Integral type: " << value << std::endl; <br>
+                } <br>
+                
+                // Overloaded function for non-integral types  <br>
+                template <typename T> <br>
+                typename std::enable_if<!std::is_integral<T>::value, void>::type <br>
+                printType(T value) { <br>
+                    std::cout << "Non-integral type: " << value << std::endl; <br>
+                } <br>
+                
+                int main() { <br>
+                    printType(42);      // Outputs: Integral type: 42 <br>
+                    printType(3.14);    // Outputs: Non-integral type: 3.14 <br>
+                    printType("Hello");  // Outputs: Non-integral type: Hello <br>
+                    return 0; <br>
+                } <br>
+                
+         </div>
+         
+         <h2>Explanation</h2>
+         <p>
+            1. std::enable_if: This template is used to conditionally enable or disable a function based on a compile-time boolean expression. <br>
+             It creates a type alias for void if the expression is true, and it results in a substitution failure if it’s false. <br>
+
+           2. Integral Type Function: The first printType function is enabled only for integral types (std::is_integral<T>::value is true). <br>
+            If you try to use this function with a non-integral type, it will not be considered for overload resolution. <br>
+            
+           3. Non-Integral Type Function: The second printType function is enabled for non-integral types (!std::is_integral<T>::value). <br>
+            
+            4. Usage: In the main function, calling printType(42) matches the integral function, while printType(3.14) and printType("Hello") <br>
+             match the non-integral function. <br></p>
+             <h1>Smart Pointers:</h1>
+
+             <h2>. Unique pointers (std::unique_ptr)</h2>
+
+             <p>std::unique_ptr is a smart pointer in C++ that manages the lifetime of a dynamically allocated object. It ensures that there is <br>
+             exactly one owner of the object, meaning it cannot be copied, only moved. When the std::unique_ptr goes out of scope, it automatically <br> 
+             deletes the associated object, preventing memory leaks. <br></p>
+
+             <h2>Example</h2>
+
+             <p>Here’s a simple example demonstrating how to use std::unique_ptr:</p>
+
+             <div class="code4">
+                <p>#include <iostream> <br>
+                    #include <memory> <br>
+                    
+                    class MyClass { <br>
+                    public: <br>
+                        MyClass() { std::cout << "MyClass Constructor\n"; } <br>
+                        ~MyClass() { std::cout << "MyClass Destructor\n"; } <br>
+                        void display() { std::cout << "Hello from MyClass\n"; } <br>
+                    }; <br>
+                    
+                    int main() { <br>
+                        // Create a unique_ptr managing a MyClass object <br>
+                        std::unique_ptr<MyClass> ptr1 = std::make_unique<MyClass>(); <br>
+                    
+                        // Use the object <br>
+                        ptr1->display(); <br>
+                    
+                        // Transfer ownership to another unique_ptr <br>
+                        std::unique_ptr<MyClass> ptr2 = std::move(ptr1); <br>
+                    
+                        // ptr1 is now null, ptr2 owns the MyClass object <br>
+                        if (!ptr1) { <br>
+                            std::cout << "ptr1 is null\n"; <br>
+                        } <br>
+                    
+                        // Use the object through ptr2 <br>
+                        ptr2->display(); <br>
+                    
+                        // No need to explicitly delete the object; it will be deleted when ptr2 goes out of scope <br>
+                        return 0; <br>
+                    }
+                    </p>
+             </div>
+             <h2>Output</h2>
+             <div class="code04">
+                <p>
+                 MyClass Constructor <br>
+                 Hello from MyClass <br>
+                 ptr1 is null <br>
+                 Hello from MyClass <br>
+                 MyClass Destructor <br>
+                 </p>
+             </div>
+             <h2>. Shared pointers (std::shared_ptr)</h2>
+             <p>std::shared_ptr is a smart pointer in C++ that allows multiple pointers to share ownership of a dynamically  <br>
+                allocated object. It keeps a reference count of how many std::shared_ptr instances point to the same object. <br>
+                 When the last std::shared_ptr pointing to the object is destroyed or reset, the object is automatically deleted, preventing memory leaks. <br></p>
+                 <h2>Example</h2>
+                   <p> Here's a simple example demonstrating how to use std::shared_ptr: </p>
+                   <div class="code5">
+                    <p>#include <iostream> <br>
+                        #include <memory> <br>
+                        
+                        class MyClass { <br>
+                        public: <br>
+                            MyClass() { std::cout << "MyClass Constructor\n"; } <br>
+                            ~MyClass() { std::cout << "MyClass Destructor\n"; } <br>
+                            void display() { std::cout << "Hello from MyClass\n"; } <br>
+                        }; <br>
+                        
+                        int main() { <br>
+                            // Create a shared_ptr managing a MyClass object <br>
+                            std::shared_ptr<MyClass> ptr1 = std::make_shared<MyClass>(); <br>
+                        
+                            // Use the object <br>
+                            ptr1->display(); <br>
+                            
+                            // Create another shared_ptr that shares ownership of the same MyClass object <br>
+                            std::shared_ptr<MyClass> ptr2 = ptr1; <br>
+                        
+                            // Both ptr1 and ptr2 now own the same object <br>
+                            std::cout << "Reference count: " << ptr1.use_count() << "\n"; // Should be 2 <br>
+                        
+                            // Reset ptr1, reducing the reference count <br>
+                            ptr1.reset(); <br>
+                        
+                            // ptr2 still owns the object <br>
+                            std::cout << "Reference count after resetting ptr1: " << ptr2.use_count() << "\n"; // Should be 1 <br>
+                        
+                            // Use the object through ptr2 <br>
+                            ptr2->display(); <br>
+                        
+                            // When ptr2 goes out of scope, MyClass will be destroyed <br>
+                            return 0; <br>
+                        }
+                        </p>
+                   </div>
+                   <h2>Output</h2>
+                   <div class="code05">
+                    <p> MyClass Constructor <br>
+                        Hello from MyClass <br>
+                        Reference count: 2 <br>
+                        Reference count after resetting ptr1: 1 <br>
+                        Hello from MyClass <br>
+                        MyClass Destructor <br>
+                        
+                        
+                    </p>
+
+
+                   </div>
+                   <h2>Explanation of the Code</h2>
+                   <p>1. MyClass has a constructor and destructor that print messages to indicate when an object is created and destroyed. It also has a <br>
+                     display method that prints a message. <br>
+                     <br>
+                      2. Creating a shared_ptr:  <br>
+                    
+               std::shared_ptr<MyClass> ptr1 = std::make_shared<MyClass>(); creates a shared_ptr named ptr1 that manages a new MyClass object. <br>
+                 The constructor message is printed. <br>
+                 <br>
+                   3. Using the Object: <br>
+                    
+                    ptr1->display(); calls the display method on the managed object. <br></p>
+                    <h2>. Weak pointers (std::weak_ptr)</h2>
+                    <p>std::weak_ptr is a smart pointer in C++ that provides a non-owning reference to an object managed by std::shared_ptr. It is used to <br>
+                     avoid circular references that can lead to memory leaks. While std::weak_ptr does not contribute to the reference count of the shared object, <br>
+                      it allows you to check if the object is still alive and access it safely if it is. <br></p>
+                      <h2>Example</h2>
+                      <p>Here's a simple example demonstrating how to use std::weak_ptr:</p>
+                      <div class="code6">
+                        <p>#include <iostream> <br>
+                            #include <memory> <br>
+                            
+                            class MyClass { <br>
+                            public: <br>
+                                MyClass() { std::cout << "MyClass Constructor\n"; } <br>
+                                ~MyClass() { std::cout << "MyClass Destructor\n"; } <br>
+                                void display() { std::cout << "Hello from MyClass\n"; } <br>
+                            }; <br>
+                            
+                            int main() { <br>
+                                // Create a shared_ptr managing a MyClass object <br>
+                                std::shared_ptr<MyClass> ptr1 = std::make_shared<MyClass>(); <br>
+                            
+                                // Create a weak_ptr from the shared_ptr <br>
+                                std::weak_ptr<MyClass> weakPtr = ptr1; <br>
+                            
+                                // Use the object through shared_ptr <br>
+                                ptr1->display(); <br>
+                                
+                                // Check if weakPtr can lock to a shared_ptr <br>
+                                if (auto sharedPtrFromWeak = weakPtr.lock()) { <br>
+                                    std::cout << "Weak pointer is valid.\n"; <br>
+                                    sharedPtrFromWeak->display(); <br>
+                                } else { <br>
+                                    std::cout << "Weak pointer is not valid.\n"; <br>
+                                } <br>
+                                <br>
+                                // Reset the shared_ptr, reducing the reference count <br>
+                                ptr1.reset(); <br>
+                                <br>
+                                // Check the weak pointer again <br>
+                                if (auto sharedPtrFromWeak = weakPtr.lock()) { <br>
+                                    std::cout << "Weak pointer is valid.\n"; <br>
+                                    sharedPtrFromWeak->display(); <br>
+                                } else { <br>
+                                    std::cout << "Weak pointer is not valid.\n"; // This will be executed <br>
+                                } <br>
+                                <br>
+                                return 0; <br>
+                            } <br>
+                            </p>
+                      </div>
+                      <h2>Output</h2>
+                      <div class="code06">
+                        <p>MyClass Constructor <br>
+                            Hello from MyClass <br>
+                            Weak pointer is valid. <br>
+                            Hello from MyClass <br>
+                            MyClass Destructor <br>
+                            Weak pointer is not valid. <br>
+                            </p>
+                      </div>
+                      <h2>Explanation</h2>
+                      <p>1. Use std::weak_ptr when you want to observe an object managed by std::shared_ptr without affecting its lifetime. <br>
+                        <br>
+                        2. It's especially useful in scenarios where circular references can occur, such as in graph structures or parent-child <br>
+                         relationships in trees. <br>
+                         <br>
+                       3. Always check the validity of a weak_ptr using lock() before accessing the managed object. <br></p>
+
+                       <h2>. Custom deleters</h2>
+                       <p>In C++, custom deleters allow you to define how a resource managed by a smart pointer (like std::unique_ptr or std::shared_ptr) <br>
+                         is released when the smart pointer goes out of scope or is reset. This is useful when you need to perform specific cleanup operations <br>
+                          or manage resources that require special handling. <br></p>
+                          <h2>Example</h2>
+                          <p>Here's an example demonstrating the use of custom deleters with std::unique_ptr:</p>
+                          <div class="code7">
+                            <p>#include <iostream> <br>
+                                #include <memory> <br>
+                                    <br>
+                                // A simple class to demonstrate custom deleters <br>
+                                class MyClass { <br>
+                                public: <br>
+                                    MyClass() { std::cout << "MyClass Constructor\n"; } <br>
+                                    ~MyClass() { std::cout << "MyClass Destructor\n"; } <br>
+                                    void display() { std::cout << "Hello from MyClass\n"; } <br>
+                                };<br>
+                                <br>
+                                // Custom deleter function <br>
+                                void customDeleter(MyClass* ptr) { <br>
+                                    std::cout << "Custom deleter called\n"; <br>
+                                    delete ptr; // Perform cleanup <br>
+                                } <br>
+                                <br>
+                                int main() { <br>
+                                    // Create a unique_ptr with a custom deleter <br>
+                                    std::unique_ptr<MyClass, decltype(&customDeleter)> ptr1(new MyClass(), customDeleter); <br>
+                                    <br>
+                                    // Use the object <br>
+                                    ptr1->display(); <br>
+                                    <br>
+                                    // When ptr1 goes out of scope, the custom deleter will be called <br>
+                                    return 0; <br>
+                                } <br>
+                                </p>
+                          </div>
+                          <h2>Output</h2>
+                          <div class="code07">
+                            <p>MyClass Constructor <br>
+                                Hello from MyClass <br>
+                                Custom deleter called <br>
+                                MyClass Destructor <br>
+                                </p>
+                          </div>
+                          <h2>Explanation</h2>
+                          <p>1. Custom deleters provide flexibility in resource management by allowing you to specify cleanup logic. <br>
+                            <br>
+                           2. They can be particularly useful for managing resources that require specific release mechanisms, such as <br>
+                             file handles or network connections. <br>
+                             <br>
+                            3.You can use lambdas as custom deleters for more concise and localized cleanup logic.  <br> </p>
+                            <h1>Concurrency and Multithreading:</h1>
+                            <h2>. Threads and thread management</h2>
+                            <p>Threads are the smallest unit of processing that can be scheduled by an operating system. They allow for concurrent execution of code, <br>
+                                 enabling multiple operations to run simultaneously within a single process. This can improve the performance of applications, especially  <br>
+                                 on multi-core processors. <br>
+                                 <br>
+
+                                Thread Management involves creating, controlling, and synchronizing threads within a program. <br>
+                                 It includes tasks like starting and stopping threads, ensuring that shared resources are accessed safely, and managing the lifecycle of threads. <br></p>
+                                 <h2>Example</h2>
+                                 <p>Here’s a simple example demonstrating how to create and manage threads using the C++ Standard Library:</p>
+                                 <div class="code8">
+                                    <p>#include <iostream> <br>
+                                        #include <thread> <br>
+                                        #include <vector> <br>
+                                        #include <chrono> <br>
+                                        
+                                        // Function to be executed by each thread <br>
+                                        void threadFunction(int id) { <br>
+                                            std::cout << "Thread " << id << " is starting.\n"; <br>
+                                            std::this_thread::sleep_for(std::chrono::seconds(1)); // Simulate work <br>
+                                            std::cout << "Thread " << id << " is done.\n"; <br>
+                                        } <br>
+                                        <br>
+                                        int main() { <br>
+                                            const int numThreads = 5; <br>
+                                            std::vector<std::thread> threads; <br>
+                                                <br>
+                                            // Creating and starting threads <br>
+                                            for (int i = 0; i < numThreads; ++i) { <br>
+                                                threads.emplace_back(threadFunction, i); // Create and start a new thread <br>
+                                            } <br>
+                                            <br>
+                                            // Joining threads to ensure they complete before main exits <br>
+                                            for (auto& thread : threads) { <br>
+                                                if (thread.joinable()) { <br>
+                                                    thread.join(); // Wait for the thread to finish <br>
+                                                } <br>
+                                            } <br>
+                                            <br>
+                                            std::cout << "All threads have completed.\n"; <br>
+                                            return 0; <br>
+                                        } <br>
+                                        </p>
+                                 </div>
+                                 <h2>Output</h2>
+                                 <div class="code08">
+                                    <p>Thread 0 is starting. <br>
+                                        Thread 1 is starting. <br>
+                                        Thread 2 is starting. <br>
+                                        Thread 3 is starting. <br>
+                                        Thread 4 is starting. <br>
+                                        Thread 0 is done. <br>
+                                        Thread 1 is done. <br>
+                                        Thread 2 is done. <br>
+                                        Thread 3 is done. <br>
+                                        Thread 4 is done. <br>
+                                        All threads have completed. <br>
+                                        </p>
+                                 </div>
+                                 <h2>. Mutexes and locks</h2>
+                                 <p>Mutexes (short for "mutual exclusion") are synchronization primitives used to protect shared resources from being simultaneously accessed by multiple threads. <br>
+                                     They ensure that only one thread can access a resource at any given time, preventing data races and ensuring thread safety. <br>
+                                      <br>
+                                    Locks are mechanisms that manage mutexes. A lock is acquired when a thread needs to access a shared resource,  <br>
+                                    and it is released when the thread is done. In C++, the std::mutex class is used for mutexes, and std::lock_guard or std::unique_lock are commonly used for managing locks. <br></p>
+                                    <h2>Example</h2>
+                                    <p>Here’s a simple example demonstrating the use of mutexes and locks in C++:</p>
+                                    <div class="code9">
+                                        <p>#include <iostream> <br>
+                                            #include <thread> <br>
+                                            #include <vector> <br>
+                                            #include <mutex><br>
+                                            #include <chrono> <br>
+                                                <br>
+                                            std::mutex mtx; // Mutex for protecting shared resource <br>
+                                            int sharedCounter = 0; // Shared resource <br>
+                                            <br>
+                                            // Function to increment the shared counter <br>
+                                            void incrementCounter(int threadId) { <br>
+                                                for (int i = 0; i < 5; ++i) { <br>
+                                                    // Lock the mutex before accessing the shared resource <br>
+                                                    std::lock_guard<std::mutex> lock(mtx); <br>
+                                                    <br>
+                                                    // Critical section <br>
+                                                    ++sharedCounter; <br>
+                                                    std::cout << "Thread " << threadId << " incremented counter to " << sharedCounter << "\n"; <br>
+                                                    <br>
+                                                    // Simulate some work <br>
+                                                    std::this_thread::sleep_for(std::chrono::milliseconds(100));<br>
+                                                }<br>
+                                            }<br>
+                                            <br>
+                                            int main() {<br>
+                                                const int numThreads = 3;<br>
+                                                std::vector<std::thread> threads;<br>
+                                                <br>
+                                                // Creating and starting threads<br>
+                                                for (int i = 0; i < numThreads; ++i) {<br>
+                                                    threads.emplace_back(incrementCounter, i); // Create and start a new thread<br>
+                                                }<br>
+                                                <br>
+                                                // Joining threads to ensure they complete before main exits <br>
+                                                for (auto& thread : threads) { <br>
+                                                    if (thread.joinable()) { <br>
+                                                        thread.join(); // Wait for the thread to finish <br>
+                                                    } <br>
+                                                }<br>
+                                                <br>
+                                                std::cout << "Final counter value: " << sharedCounter << "\n";<br>
+                                                return 0;<br>
+                                            } <br>
+                                            </p>
+                                    </div>
+                                    <h2>Output</h2>
+                                    <div class="code09">
+                                        <p>Thread 0 incremented counter to 1 <br>
+                                            Thread 1 incremented counter to 2 <br>
+                                            Thread 2 incremented counter to 3 <br>
+                                            Thread 0 incremented counter to 4 <br>
+                                            Thread 1 incremented counter to 5 <br>
+                                            Thread 2 incremented counter to 6 <br>
+                                            Thread 0 incremented counter to 7 <br>
+                                            Thread 1 incremented counter to 8 <br>
+                                            Thread 2 incremented counter to 9 <br>
+                                            Thread 0 incremented counter to 10 <br>
+                                            Thread 1 incremented counter to 11 <br>
+                                            Thread 2 incremented counter to 12 <br>
+                                            Final counter value: 15 <br>
+                                            </p>
+                                    </div>
+                                    <h2>. Condition variables</h2>
+                                    <p>Condition Variables are synchronization primitives used in concurrent programming to block a thread until a particular condition is met. <br>
+                                         They allow threads to wait for certain conditions to occur, enabling efficient communication between threads. <br>
+                                         Condition variables are typically used in conjunction with mutexes to ensure thread safety while accessing shared resources. <br></p>
+                                         <h2>Example</h2>
+                                         <p>Here’s an example of how to use condition variables in C++:</p>
+                                         <div class="code10">
+                                            <p>#include <iostream> <br>
+                                                #include <thread> <br>
+                                                #include <mutex> <br>
+                                                #include <condition_variable> <br>
+                                                #include <queue> <br>
+                                                #include <chrono> <br>
+                                                    <br>
+                                                std::mutex mtx; <br>
+                                                std::condition_variable cv;<br>
+                                                std::queue<int> buffer; <br>
+                                                const unsigned int maxBufferSize = 5; <br>
+                                                <br>
+                                                void producer() { <br>
+                                                    for (int i = 0; i < 10; ++i) { <br>
+                                                        std::this_thread::sleep_for(std::chrono::milliseconds(100)); // Simulate work <br>
+                                                        std::unique_lock<std::mutex> lock(mtx); <br>
+                                                        <br>
+                                                        // Wait until there is space in the buffer <br>
+                                                        cv.wait(lock, [] { return buffer.size() < maxBufferSize; }); <br>
+                                                        <br>
+                                                        // Produce an item and add it to the buffer<br>
+                                                        buffer.push(i); <br>
+                                                        std::cout << "Produced: " << i << " | Buffer size: " << buffer.size() << "\n"; <br>
+                                                        <br>
+                                                        // Notify a waiting consumer <br>
+                                                        cv.notify_one(); <br>
+                                                    } <br>
+                                                } <br>
+                                                <br>
+                                                void consumer() { <br>
+                                                    for (int i = 0; i < 10; ++i) { <br>
+                                                        std::this_thread::sleep_for(std::chrono::milliseconds(150)); // Simulate work <br>
+                                                        std::unique_lock<std::mutex> lock(mtx); <br>
+                                                        <br>
+                                                        // Wait until there is an item in the buffer <br>
+                                                        cv.wait(lock, [] { return !buffer.empty(); }); <br>
+                                                        <br>
+                                                        // Consume an item from the buffer <br>
+                                                        int item = buffer.front(); <br>
+                                                        buffer.pop(); <br>
+                                                        std::cout << "Consumed: " << item << " | Buffer size: " << buffer.size() << "\n"; <br>
+                                                        <br>
+                                                        // Notify a waiting producer <br>
+                                                        cv.notify_one(); <br>
+                                                    }<br>
+                                                }<br>
+                                                <br>
+                                                int main() { <br>
+                                                    std::thread prod(producer); <br>
+                                                    std::thread cons(consumer); <br>
+                                                    <br>
+                                                    prod.join(); <br>
+                                                    cons.join(); <br>
+                                                    <br>
+                                                    return 0; <br>
+                                                } <br>
+                                                </p>
+                                         </div>
+                                         <h2>. Future and promise</h2>
+                                         <p>Future and Promise are synchronization primitives in C++ used to facilitate communication between threads. <br>
+                                            They are part of the C++11 standard library and allow you to write concurrent programs that can efficiently pass values between threads. <br>
+                                            <br>
+                                            1. Promise: A promise is an object that acts as a placeholder for a value that will be computed in a different thread. <br>
+                                             It allows you to set a value (or an exception) that can be retrieved later. <br>
+                                            <br>
+                                           2. Future: A future is an object that retrieves the value from a promise. It provides a way to access the value once it's <br>
+                                            ready, allowing the calling thread to wait for it or check its status. <br></p>
+                                            <h2>Example</h2>
+                                            <p>Here’s a simple example demonstrating the use of std::promise and std::future in C++:</p>
+                                            <div class="code11">
+                                                <p> #include <iostream> <br>
+                                                    #include <thread> <br>
+                                                    #include <future> <br>
+                                                    #include <chrono> <br>
+                                                        <br>
+                                                    // Function to perform some calculation <br>
+                                                    int calculate(int x) { <br>
+                                                        std::this_thread::sleep_for(std::chrono::seconds(2)); // Simulate long calculation <br>
+                                                        return x * x; // Return the square of x <br>
+                                                    }<br>
+                                                    <br>
+                                                    int main() { <br>
+                                                        // Create a promise and a future <br>
+                                                        std::promise<int> prom; <br>
+                                                        std::future<int> fut = prom.get_future(); <br>
+                                                            <br>
+                                                        // Start a thread that performs a calculation <br>
+                                                        std::thread worker([&prom]() { <br>
+                                                            try { <br>
+                                                                int result = calculate(10); // Perform the calculation <br>
+                                                                prom.set_value(result); // Set the value in the promise <br>
+                                                            } catch (...) { <br>
+                                                                prom.set_exception(std::current_exception()); // Handle exceptions <br>
+                                                            }<br>
+                                                        }); <br>
+                                                        <br>
+                                                        // Main thread can do other work here... <br>
+                                                        std::cout << "Doing other work in main thread...\n"; <br>
+                                                        <br>
+                                                        // Get the result from the future (this will block until the result is ready)<br>
+                                                        std::cout << "Waiting for the result...\n";<br>
+                                                        int result = fut.get(); // Retrieve the result<br>
+                                                        std::cout << "Result received: " << result << "\n";<br>
+                                                        <br>
+                                                        // Clean up<br>
+                                                        worker.join(); // Wait for the worker thread to finish<br>
+                                                        <br>
+                                                        return 0;<br>
+                                                    }<br>
+                                                    </p>
+                                            </div>
+                                            <h2>Output</h2>
+                                            <div class="code011">
+                                             <p>Doing other work in main thread... <br>
+                                                Waiting for the result... <br>
+                                                Result received: 100 <br>
+                                                </p>
+                                            </div>
+                                            <h2>. Atomic operations</h2>
+                                            <p>Atomic Operations are operations that are performed as a single, indivisible step. In the context of concurrent programming,  <br>
+                                                atomic operations ensure that a variable's state cannot be altered between the time it is read and the time it is written, <br>
+                                                even if multiple threads are accessing the variable simultaneously. This prevents data races and ensures thread safety without <br>
+                                                needing explicit locking mechanisms like mutexes. <br>
+                                                <br>
+                                                In C++, atomic operations are provided through the <atomic> header, which includes atomic types and operations. <br></p>
+                                                    <h2>Explanation</h2>
+                                                    <p>
+                                                       1. Atomic Types: The C++ Standard Library provides atomic types (e.g., std::atomic<int>, std::atomic<bool>) that can be used  <br>
+                                                            to perform atomic operations on fundamental data types. <br>
+                                                        <br>
+                                                       2. Operations: Common atomic operations include: <br>
+                                                        <br>
+                                                        . Load: Reading the value of an atomic variable. <br>
+                                                        . Store: Writing a value to an atomic variable. <br>
+                                                        . Exchange: Setting a new value and returning the old value. <br>
+                                                        . Compare-and-Swap (CAS): Atomically compare the current value with a given value and swap <br>
+                                                         it with a new value if they are the same. <br>
+                                                       3. Memory Order: Atomic operations can have different memory orderings (e.g., memory_order_relaxed, memory_order_acquire, memory_order_release)  <br>
+                                                       that control the visibility of changes across threads, allowing for fine-tuned performance and correctness. <br></p>
+                                       
+    </div>
+    <div class="pg2">
+        <h1>JAVA</h1>
+        <h1>Java Virtual Machine (JVM) Internals:</h1>
+        <h2>Memory Management and Garbage Collection</h2>
+        <p>. Memory Management in Java refers to the process of allocating and deallocating memory for objects during the program's runtime. Java handles memory allocation through its built-in memory management system, <br>
+         which includes the Java Virtual Machine (JVM). Memory management involves two main areas: the heap (where objects are stored) and the stack (where method calls and local variables are stored). <br>
+        <br>
+           .  Garbage Collection (GC) in Java is the automatic process of identifying and reclaiming memory that is no longer in use by the program. It helps prevent memory leaks by ensuring that <br>
+           unused objects are removed from memory, allowing that memory to be reused for future allocations. Java's garbage collector runs in the background and is responsible for tracking object <br>
+            references and determining when an object can be safely collected. <br></p>
+            <h2>Example</h2>
+            <p>Here’s an example demonstrating memory management and garbage collection in Java:</p>
+            <div class="code12">
+                <p> 
+                    public class MemoryManagementExample { <br>
+                        <br>
+                        static class MyClass { <br>
+                            public MyClass() { <br>
+                                System.out.println("Constructor called!"); <br>
+                            } <br>
+                            <br>
+                            @Override <br>
+                            protected void finalize() throws Throwable { <br>
+                                System.out.println("Destructor called!"); <br>
+                                super.finalize(); // Call to the superclass finalize method <br>
+                            } <br>
+                        } <br>
+                        <br>
+                        public static void main(String[] args) { <br>
+                            // Creating objects <br>
+                            MyClass obj1 = new MyClass(); // obj1 is created <br>
+                            MyClass obj2 = new MyClass(); // obj2 is created <br>
+                            <br>
+                            // Setting obj1 to null, making it eligible for garbage collection <br>
+                            obj1 = null; <br>
+                            <br>
+                            // Suggest garbage collection <br>
+                            System.gc(); // Requesting JVM to perform garbage collection <br>
+                            <br>
+                            // Waiting for some time to observe garbage collection <br>
+                            try { <br>
+                                Thread.sleep(1000); // Sleep for a second <br>
+                            } catch (InterruptedException e) { <br>
+                                e.printStackTrace(); <br>
+                            } <br>
+                            <br>
+                            // At this point, obj2 is still referenced, so it won't be collected <br>
+                            System.out.println("End of main method."); <br>
+                        } <br>
+                    }  <br>
+                    
+                </p>
+            </div>
+            <h2>Explanation</h2>
+            <p>1.Automatic Memory Management: Java automatically manages memory allocation and deallocation, <br>
+                 reducing the complexity for developers compared to languages like C++. <br>
+                  <br>
+                2. Garbage Collection: The JVM performs garbage collection automatically, helping to free up <br>
+                 memory used by objects that are no longer reachable. <br>
+                <br>
+               3. Finalize Method: The finalize method can be overridden to define cleanup actions before an <br>
+               object is garbage collected, but it's generally discouraged due to unpredictability in its execution. <br>
+                <br>
+               4. Memory Requests: Although System.gc() can be called to suggest garbage collection, it is not <br>
+                guaranteed that the JVM will respond immediately. <br></p>
+
+                <h2>. JVM tuning and performance optimization</h2>
+                <p>> JVM Tuning refers to the process of adjusting the settings and configurations of the Java Virtual Machine (JVM) to improve the performance of Java applications. <br> 
+                    It involves optimizing memory usage, garbage collection, thread management, and other runtime parameters to ensure efficient execution of Java programs. <br>
+                 <br>
+                   > Performance Optimization involves implementing coding and design practices that enhance the efficiency and speed of a Java application. This can include <br>
+                   optimizing algorithms, reducing resource consumption, and minimizing latency. <br></p>
+                   <h2>Example</h2>
+                   <p>Here’s an example of optimizing the loop from the previous code by using a mathematical formula to calculate the sum of the first n integers:</p>
+                   <div class="code13">
+                    <p>public class OptimizedCalculator { <br>
+                       <br>
+                        public static void main(String[] args) { <br>
+                            int n = 1_000_000; <br>
+                            long sum = (long) n * (n + 1) / 2; // Using the formula for sum of first n integers <br>
+                            System.out.println("Sum: " + sum); <br>
+                        } <br>
+                    } <br>
+                    </p>
+                   </div>
+
+                   <h2>Explanation</h2>
+                   <p>> Mathematical Formula: Instead of iterating through a loop to sum integers from 1 to 1,000,000,
+                     the optimized version uses the formula (n×(n+1))/2, which reduces the time complexity from 𝑂
+                     (
+                     𝑛
+                     )
+                     O(n) to 
+                     𝑂
+                     (
+                     1
+                     )
+                     O(1).</p>
+
+                     <h2>. Class Loading Mechanism</h2>
+                     <p>The Class Loading Mechanism in Java is the process by which the Java Virtual Machine (JVM) loads classes into memory during runtime. <br>
+                        This mechanism involves several steps, including: <br>
+                       <br>
+                        1. Loading: The class loader loads the class file into memory. <br>
+                        <br>
+                        2.Linking: This includes: <br>
+                       . Verification: Ensuring the correctness of the loaded class. <br>
+                       . Preparation: Allocating memory for static variables and initializing them to default values. <br>
+                       . Resolution: Replacing symbolic references with direct references. <br>
+                       <br>
+                       3. Initialization: The class's static initializers and static blocks are executed. <br>
+                       <br>
+                        Java has several types of class loaders, including the Bootstrap Class Loader, Extension Class Loader,  <br>
+                        and Application Class Loader. <br></p>
+
+                        <h2>Example</h2>
+                        <p>Here’s a simple example demonstrating the class loading mechanism:</p>
+                        <div class="code14">
+                            <h4>1. Java Class Definition (MyClass.java):</h4>
+                            <p>public class MyClass { <br>
+                                static { <br>
+                                    System.out.println("Static block of MyClass executed."); <br>
+                                } <br>
+                            <br>
+                                public MyClass() { <br>
+                                    System.out.println("Constructor of MyClass called."); <br>
+                                } <br>
+                            <br>
+                                public void display() { <br>
+                                    System.out.println("Display method of MyClass called."); <br>
+                                } <br>
+                            } <br>
+
+                            </p>
+                            <h4>2.Main Application (Main.java):
+                            </h4>
+                            <p>public class Main { <br>
+                                public static void main(String[] args) { <br>
+                                    System.out.println("Main method started."); <br>
+                            <br>
+                                    // Load the MyClass <br>
+                                    MyClass myClass = new MyClass(); // This triggers class loading <br>
+                            <br>
+                                    // Call a method <br>
+                                    myClass.display(); <br>
+                                } <br>
+                            } <br>
+                            </p>
+                        </div>
+                        <h2>Output</h2>
+                        <div class="code014">
+                            <p>Main method started. <br>
+                                Static block of MyClass executed. <br>
+                                Constructor of MyClass called. <br>
+                                Display method of MyClass called. <br>
+                                </p>
+                        </div>
+                        <h1>Java Annotations and Meta-Programming:</h1>
+                        <h2>. Custom Annotations</h2>
+                        <p>Custom Annotations in Java allow developers to define their own metadata annotations. Annotations provide a way to add metadata <br>
+                            information to Java classes, methods, fields, or other program elements. They can be used for various purposes, such as code analysis, <br>
+                             documentation, and runtime processing. <br>
+                            <br>
+                            Custom annotations are defined using the @interface keyword and can include elements that specify values. Annotations can be processed  <br>
+                            at compile time or runtime using <br></p>
+                            <h2>Example</h2>
+                            <p>Here's a step-by-step example demonstrating how to create and use custom annotations in Java.</p>
+                            <div class="code15">
+                                <h4>1. Define a Custom Annotation:</h4>
+                                <p>import java.lang.annotation.ElementType; <br>
+                                    import java.lang.annotation.Retention; <br>
+                                    import java.lang.annotation.RetentionPolicy; <br>
+                                    import java.lang.annotation.Target; <br>
+                                    <br>
+                                    // Define a custom annotation called 'Info' <br>
+                                    @Retention(RetentionPolicy.RUNTIME) // Make it available at runtime <br>
+                                    @Target(ElementType.METHOD) // Apply it to methods <br>
+                                    public @interface Info { <br>
+                                        String author(); <br>
+                                        String date(); <br>
+                                        String version() default "1.0"; // Default value for version <br>
+                                    } <br>
+                                    </p>
+                                    <h4>2. Using the Custom Annotation:</h4>
+                                    <p>public class MyClass { <br>
+                                     <br>
+                                        @Info(author = "John Doe", date = "2023-10-01") <br>
+                                        public void myMethod() { <br>
+                                            System.out.println("Executing myMethod."); <br>
+                                        } <br>
+                                       <br>                                    
+                                        @Info(author = "Jane Smith", date = "2023-10-02", version = "1.1") <br>
+                                        public void anotherMethod() { <br>
+                                            System.out.println("Executing anotherMethod."); <br>
+                                        } <br>
+                                    } <br>
+                                    </p>
+                                    <h4>3. Processing the Annotations:</h4>
+                                    <p>import java.lang.reflect.Method; <br>
+                                       <br>
+                                        public class AnnotationProcessor { <br>
+                                        <br>
+                                            public static void main(String[] args) { <br>
+                                                MyClass myClass = new MyClass(); <br>
+                                        <br>
+                                                // Process the annotations <br>
+                                                Method[] methods = myClass.getClass().getDeclaredMethods(); <br>
+                                                for (Method method : methods) { <br>
+                                                    if (method.isAnnotationPresent(Info.class)) { <br>
+                                                        Info info = method.getAnnotation(Info.class); <br>
+                                                        System.out.println("Method: " + method.getName()); <br>
+                                                        System.out.println("Author: " + info.author()); <br>
+                                                        System.out.println("Date: " + info.date()); <br>
+                                                        System.out.println("Version: " + info.version()); <br>
+                                                        System.out.println(); <br>
+                                                    } <br>
+                                                } <br>
+                                                <br>
+                                                // Call methods <br>
+                                                myClass.myMethod(); <br>
+                                                myClass.anotherMethod(); <br>
+                                            } <br>
+                                        } <br>
+                                        </p>
+                            </div>
+                            <div class="code015">
+                                <h2>Output</h2>
+                                <p>Method: myMethod <br>
+                                    Author: John Doe <br>
+                                    Date: 2023-10-01 <br>
+                                    Version: 1.0 <br>
+                                    <br>
+                                    Method: anotherMethod <br>
+                                    Author: Jane Smith <br>
+                                    Date: 2023-10-02 <br>
+                                    Version: 1.1 <br>
+                                    <br> 
+                                    Executing myMethod. <br>
+                                    Executing anotherMethod. <br>
+                                    </p>
+                            </div>
+    </div>
+    <div class="pg3">
+        <h1>C#</h1>
+        <h1>Asynchronous Programming:</h1>
+        <h2>. Async and Await Patterns</h2>
+        <p>The async and await keywords in C# provide a way to write asynchronous code that is easy to read and maintain. <br> 
+        These keywords allow you to perform non-blocking operations, improving the responsiveness of applications, especially in scenarios <br>
+         involving I/O-bound operations like web requests, file I/O, and database queries. <br>
+ <br>
+            async: This modifier is applied to methods that contain asynchronous operations. It allows the method to use the await keyword. <br>
+            await: This keyword is used before a task that represents an asynchronous operation. It pauses the execution of the method until the <br>
+            awaited task is complete, without blocking the thread. <br></p>
+            <h2>Example</h2>
+            <p>Here’s a simple example demonstrating the use of async and await in a C# console application.</p>
+            <div class="code16">
+                <p>using System; <br>
+                    using System.Net.Http; <br>
+                    using System.Threading.Tasks; <br>
+                    <br>
+                    class Program <br>
+                    { <br>
+                        static async Task Main(string[] args) <br>
+                        { <br>
+                            Console.WriteLine("Starting async operation..."); <br>
+                            string result = await FetchDataAsync("https://jsonplaceholder.typicode.com/posts/1"); <br>
+                            Console.WriteLine("Data fetched: "); <br>
+                            Console.WriteLine(result); <br>
+                        } <br>
+                        <br>
+                        static async Task<string> FetchDataAsync(string url) <br>
+                        { <br>
+                            using HttpClient client = new HttpClient(); <br>
+                            // Asynchronously fetch data from the URL <br>
+                            string response = await client.GetStringAsync(url); <br>
+                            return response; // Return the fetched data <br>
+                        } <br>
+                    } <br>
+                    </p>
+            </div>
+            <h2>Output</h2>
+            <div class="code016">
+                <p>Starting async operation... <br>
+                    Data fetched:  <br>
+                    { <br>
+                      "userId": 1, <br>
+                      "id": 1, <br>
+                      "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit", <br>
+                      "body": "quia et suscipit\nsuscipit... <br>
+                    } <br> 
+                    </p>
+            </div>
+            <h2>. Task-based programming</h2>
+            <p>Task-Based Programming in C# refers to a programming model that uses the Task class to represent asynchronous operations. <br>
+                 The Task class is part of the Task Parallel Library (TPL) and is designed to simplify the development of asynchronous and parallel code. <br>
+                 <br>
+                In this model, a Task represents an operation that can be run asynchronously and allows developers to write non-blocking code, <br>
+                 manage concurrency, and improve application responsiveness. It provides methods for creating, running, and managing tasks, as well as <br>
+                  handling their completion and any exceptions that may arise. <br></p>
+                  <h2>Example</h2>
+                  <p>Here’s a simple example demonstrating task-based programming using tasks in a C# console application.</p>
+                  <div class="code17">
+                    <p>using System; <br>
+                        using System.Threading; <br>
+                        using System.Threading.Tasks; <br>
+                        <br>
+                        class Program <br>
+                        { <br>
+                            static async Task Main(string[] args) <br>
+                            { <br>
+                                Console.WriteLine("Starting tasks..."); <br>
+                                <br>
+                                // Create and start two tasks <br>
+                                Task task1 = Task.Run(() => PerformTask("Task 1", 3000)); <br>
+                                Task task2 = Task.Run(() => PerformTask("Task 2", 2000)); <br>
+                                <br>
+                                // Wait for both tasks to complete <br>
+                                await Task.WhenAll(task1, task2); <br>
+                                <br>
+                                Console.WriteLine("All tasks completed."); <br>
+                            } <br>
+                            <br>
+                            static void PerformTask(string taskName, int delay) <br>
+                            { <br>
+                                Console.WriteLine($"{taskName} is starting."); <br>
+                                Thread.Sleep(delay); // Simulate a long-running operation <br>
+                                Console.WriteLine($"{taskName} is completed."); <br>
+                            } <br>
+                        } <br>
+                        </p>
+                        <h2>Output</h2>
+                         <div class="code017">
+                            <p>Starting tasks... <br>
+                                Task 1 is starting. <br>
+                                Task 2 is starting. <br>
+                                Task 2 is completed. <br>
+                                Task 1 is completed. <br>
+                                All tasks completed. <br>
+                                </p>
+                         </div>
+                  </div>
+                  <h1>LINQ (Language Integrated Query):</h1>
+                  <h2>. Advanced LINQ queries</h2>
+                  <p>LINQ (Language Integrated Query) is a powerful feature in C# that allows developers to query collections in a concise <br>
+                     and readable manner. Advanced LINQ queries extend the basic querying capabilities by incorporating techniques like grouping, <br>
+                     joining, ordering, and projection. These advanced queries allow for complex data manipulations and are particularly useful when  <br>
+                     dealing with collections of objects, databases, or XML. <br></p>
+                     <h2>Example</h2>
+                     <p>Here’s an example demonstrating advanced LINQ queries using a collection of objects.</p>
+                     <div class="code18">
+                        <h4>1. Define Classes:</h4>
+                        <p>using System; <br>
+                            using System.Collections.Generic; <br>
+                            using System.Linq; <br>
+                            <br>
+                            public class Product <br>
+                            { <br>
+                                public int Id { get; set; } <br>
+                                public string Name { get; set; } <br>
+                                public decimal Price { get; set; } <br>
+                                public string Category { get; set; } <br>
+                            } <br>
+                            <br>
+                            public class Order <br>
+                            { <br>
+                                public int OrderId { get; set; } <br>
+                                public int ProductId { get; set; } <br>
+                                public int Quantity { get; set; } <br>
+                            } <br>
+                            </p>
+                            <h4>2.Creating Sample Data:</h4>
+                            <p>public class Program <br>
+                                { <br>
+                                    public static void Main() <br>
+                                    {<br>
+                                        List<Product> products = new List<Product><br>
+                                        {<br>
+                                            new Product { Id = 1, Name = "Laptop", Price = 1200, Category = "Electronics" },<br>
+                                            new Product { Id = 2, Name = "Smartphone", Price = 800, Category = "Electronics" },<br>
+                                            new Product { Id = 3, Name = "Chair", Price = 150, Category = "Furniture" },<br>
+                                            new Product { Id = 4, Name = "Table", Price = 300, Category = "Furniture" },<br>
+                                            new Product { Id = 5, Name = "Headphones", Price = 100, Category = "Electronics" }<br>
+                                        };<br>
+                                        <br>
+                                        List<Order> orders = new List<Order><br>
+                                        {<br>
+                                            new Order { OrderId = 1, ProductId = 1, Quantity = 2 },<br>
+                                            new Order { OrderId = 2, ProductId = 2, Quantity = 1 },<br>
+                                            new Order { OrderId = 3, ProductId = 3, Quantity = 4 },<br>
+                                            new Order { OrderId = 4, ProductId = 1, Quantity = 1 },<br>
+                                            new Order { OrderId = 5, ProductId = 5, Quantity = 3 }<br>
+                                        };<br>
+                                        <br>
+                                        // Perform advanced LINQ queries<br>
+                                        AdvancedQueries(products, orders);<br>
+                                    }<br>
+                                    <br>
+                                    static void AdvancedQueries(List<Product> products, List<Order> orders)<br>
+                                    {<br>
+                                        // 1. Group products by category and calculate total sales for each category<br>
+                                        var salesByCategory = from product in products<br>
+                                                              join order in orders on product.Id equals order.ProductId<br>
+                                                              group new { product, order } by product.Category into g<br>
+                                                              select new<br>
+                                                              {<br>
+                                                                  Category = g.Key,<br>
+                                                                  TotalSales = g.Sum(x => x.order.Quantity * x.product.Price)<br>
+                                                              };<br>
+                                                              <br>
+                                        Console.WriteLine("Total Sales by Category:");<br>
+                                        foreach (var item in salesByCategory)<br>
+                                        {<br>
+                                            Console.WriteLine($"{item.Category}: ${item.TotalSales}");<br>
+                                        }<br>
+                                        <br>
+                                        // 2. Join products and orders to get detailed order information<br>
+                                        var detailedOrders = from order in orders<br>
+                                                             join product in products on order.ProductId equals product.Id<br>
+                                                             select new<br>
+                                                             {<br>
+                                                                 order.OrderId,<br>
+                                                                 product.Name,<br>
+                                                                 order.Quantity,<br>
+                                                                 TotalPrice = order.Quantity * product.Price<br>
+                                                             };<br>
+                                                             <br>
+                                        Console.WriteLine("\nDetailed Orders:");<br>
+                                        foreach (var order in detailedOrders)<br>
+                                        {<br>
+                                            Console.WriteLine($"Order ID: {order.OrderId}, Product: {order.Name}, Quantity: {order.Quantity}, Total Price: ${order.TotalPrice}");<br>
+                                        }<br>
+                                        <br>
+                                        // 3. Order products by price descending<br>
+                                        var orderedProducts = from product in products<br>
+                                                              orderby product.Price descending<br>
+                                                              select product;<br>
+                                                              <br>
+                                        Console.WriteLine("\nProducts Ordered by Price (Descending):");<br>
+                                        foreach (var product in orderedProducts)<br>
+                                        {<br>
+                                            Console.WriteLine($"{product.Name}: ${product.Price}");<br>
+                                        }<br>
+                                    }<br>
+                                }<br>
+                                </p>
+                     </div>
+                     <h2>Output</h2>
+                     <div class="code018">
+                        <p>Total Sales by Category: <br>
+                            Electronics: $3200<br>
+                            Furniture: $600<br>
+                            <br>
+                            Detailed Orders:<br>
+                            Order ID: 1, Product: Laptop, Quantity: 2, Total Price: $2400<br>
+                            Order ID: 2, Product: Smartphone, Quantity: 1, Total Price: $800<br>
+                            Order ID: 3, Product: Chair, Quantity: 4, Total Price: $600<br>
+                            Order ID: 4, Product: Laptop, Quantity: 1, Total Price: $1200<br>
+                            Order ID: 5, Product: Headphones, Quantity: 3, Total Price: $300<br>
+                            <br>
+                            Products Ordered by Price (Descending):<br>
+                            Laptop: $1200<br>
+                            Smartphone: $800<br>
+                            Table: $300<br>
+                            Chair: $150<br>
+                            Headphones: $100<br>
+                            </p>
+                     </div>
+                     <h2>. LINQ to XML and LINQ to Objects</h2>
+                     <p>LINQ to XML is a component of LINQ (Language Integrated Query) that provides an easy way to work with XML data in C#. It allows developers to query, <br>
+                        manipulate, and create XML documents using LINQ syntax. This makes XML processing much more intuitive and straightforward. <br>
+                        <br>
+                        LINQ to Objects is another component of LINQ that allows querying in-memory collections such as arrays, lists, and dictionaries <br>
+                         using LINQ syntax. It enables developers to use the same querying capabilities on in-memory data as they would on databases or XML. <br></p>
+                         <h2>Example</h2>
+                         <p>
+                            Here's an example demonstrating LINQ to Objects to query a list of products stored in memory.</p>
+                            <div class="code19">
+                                <p>using System; <br>
+                                    using System.Collections.Generic; <br>
+                                    using System.Linq;<br>
+                                    <br>
+                                    class Product<br>
+                                    {<br>
+                                        public int Id { get; set; }<br>
+                                        public string Name { get; set; }<br>
+                                        public decimal Price { get; set; }<br>
+                                    }<br>
+                                    <br>
+                                    class Program<br>
+                                    {<br>
+                                        static void Main()<br>
+                                        {<br>
+                                            // Create a list of products<br>
+                                            List<Product> products = new List<Product><br>
+                                            {<br>
+                                                new Product { Id = 1, Name = "Laptop", Price = 1200 },<br>
+                                                new Product { Id = 2, Name = "Smartphone", Price = 800 },<br>
+                                                new Product { Id = 3, Name = "Chair", Price = 150 },<br>
+                                                new Product { Id = 4, Name = "Table", Price = 300 }<br>
+                                            };<br>
+                                            <br>
+                                            // Query to find products with a price greater than 200<br>
+                                            var expensiveProducts = from product in products<br>
+                                                                    where product.Price > 200<br>
+                                                                    select product;<br>
+                                                                    <br>
+                                            Console.WriteLine("Products with price greater than $200:");<br>
+                                            foreach (var product in expensiveProducts)<br>
+                                            {<br>
+                                                Console.WriteLine($"Name: {product.Name}, Price: ${product.Price}");<br>
+                                            }<br>
+                                            <br>
+                                            // Order products by price<br>
+                                            var orderedProducts = from product in products<br>
+                                                                  orderby product.Price ascending<br>
+                                                                  select product;<br>
+                                                                  <br>
+                                            Console.WriteLine("\nProducts ordered by price:");<br>
+                                            foreach (var product in orderedProducts)<br>
+                                            {<br>
+                                                Console.WriteLine($"{product.Name}: ${product.Price}");<br>
+                                            }<br>
+                                        }<br>
+                                    } <br>
+                    
+                                
+                                    </p>
+                            </div>
+                            <h2>Output</h2>
+                            <div class="code019">
+                                <p>Products with price greater than $200: <br>
+                                    Name: Laptop, Price: $1200 <br>
+                                    Name: Smartphone, Price: $800 <br>
+                                    Name: Table, Price: $300 <br>
+                                    <br>
+                                    Products ordered by price: <br>
+                                    Chair: $150 <br>
+                                    Table: $300 <br>
+                                    Smartphone: $800 <br>
+                                    Laptop: $1200 <br>
+                                    </p>
+                            </div>
+    </div>
+    <div class="pg4">
+        <h1>PYTHON</h1>
+        <h1>Generators and Iterators:</h1>
+        <h2>. Generator functions with yield</h2>
+        <p>In Python, a generator function is defined like a regular function but uses the yield keyword to return values one at a time, <br>
+             pausing the function’s state between each call. This makes it memory efficient for iterating over large datasets. <br></p>
+             <h2>Example</h2>
+             <p>Here’s a simple example to illustrate how to create and use a generator function:</p>
+             <div class="code20">
+                <p>def count_up_to(n): <br>
+                    """Generator that counts up to n.""" <br>
+                    count = 1<br>
+                    while count <= n:<br>
+                        yield count  # Yield the current count<br>
+                        count += 1   # Increment count<br>
+                        <br>
+                # Using the generator<br>
+                for number in count_up_to(5):<br>
+                    print(number)<br>
+                </p>
+             </div>
+             <h2>Output</h2>
+             <div class="code020">
+                <p>1 <br>
+                    2 <br>
+                    3 <br>
+                    4 <br>
+                    5 <br>
+                    </p>
+             </div>
+             <h2>.  Iterator Protocol</h2>
+             <p>The iterator protocol in Python defines a standard way to traverse through elements of a collection without exposing the underlying structure. <br>
+                 This protocol consists of two main methods: __iter__() and __next__(). <br></p>
+                 <h2>Example</h2>
+                 <p>Let's create a simple iterator that generates the Fibonacci sequence:</p>
+                 <div class="code21">
+                    <p>class Fibonacci: <br>
+                        def __init__(self, n):<br>
+                            self.n = n  # Number of Fibonacci numbers to generate<br>
+                            self.a, self.b = 0, 1  # Initial values for the sequence<br>
+                            self.count = 0  # Keep track of the number of generated values<br>
+                            <br>
+                        def __iter__(self):<br>
+                            return self  # Return the iterator object itself<br>
+                            <br>
+                        def __next__(self):<br>
+                            if self.count < self.n:<br>
+                                value = self.a  # Current value<br>
+                                self.a, self.b = self.b, self.a + self.b  # Update for next iteration<br>
+                                self.count += 1  # Increment count<br>
+                                return value  # Return the current Fibonacci number<br>
+                            else:<br>
+                                raise StopIteration  # No more values to generate<br>
+                                <br>
+                    # Using the Fibonacci iterator<br>
+                    fib = Fibonacci(10)<br>
+                    for number in fib:<br>
+                        print(number)<br>
+                    </p>
+                 </div>
+                 <h2>Output</h2>
+                 <div class="code021">
+                    <p>0 <br>
+                        1 <br>
+                        1<br>
+                        2<br>
+                        3<br>
+                        5<br>
+                        8<br>
+                        13<br>
+                        21<br>
+                        34<br>
+                        </p>
+                 </div>
+                 <h1>Python's Descriptor Protocol:</h1>
+                 <h2>. Understanding how descriptors work</h2>
+                 <p>Descriptors in Python are a powerful feature that allows you to customize the behavior of attribute access. <br>
+                     A descriptor is a class that defines one or more of the following methods: __get__, __set__, and __delete__. <br>
+                     Descriptors are used to manage the attributes of other classes, making it easier to implement features like type checking, <br>
+                      validation, or lazy loading. <br></p>
+                      <h2>Example</h2>
+                      <p>Let's create a simple descriptor that manages a temperature attribute, ensuring that it stays within a <br>
+                         valid range (e.g., between -273.15 and 1000 degrees Celsius). <br></p>
+                         <div class="code22">
+                            <p>class Temperature: <br>
+                                def __init__(self):<br>
+                                    self._value = 0.0<br>
+                                    <br>
+                                def __get__(self, instance, owner):<br>
+                                    return self._value<br>
+                                    <br>
+                                def __set__(self, instance, value):<br>
+                                    if value < -273.15:<br>
+                                        raise ValueError("Temperature cannot be below -273.15 degrees Celsius.")<br>
+                                    self._value = value<br>
+                                    <br>
+                                def __delete__(self, instance):<br>
+                                    raise AttributeError("Cannot delete temperature.")<br>
+                                    <br>
+                            class Weather:<br>
+                                temperature = Temperature()  # Descriptor as a class attribute<br>
+                                <br>
+                            # Using the descriptor<br>
+                            weather = Weather()<br>
+                            <br>
+                            # Set a valid temperature<br>
+                            weather.temperature = 25.0<br>
+                            print(weather.temperature)  # Output: 25.0<br>
+                            <br>
+                            # Attempt to set an invalid temperature<br>
+                            try:<br>
+                                weather.temperature = -300.0  # This should raise an exception<br>
+                            except ValueError as e:<br>
+                                print(e)  # Output: Temperature cannot be below -273.15 degrees Celsius.<br>
+                                <br>
+                            # Attempt to delete the temperature<br>
+                            try:<br>
+                                del weather.temperature  # This should raise an exception<br>
+                            except AttributeError as e:<br>
+                                print(e)  # Output: Cannot delete temperature.<br>
+                            </p>
+                         </div>
+                         <h2>Explanation</h2>
+                         <p>
+                            1.Descriptor Class: The Temperature class defines the descriptor. It has an internal <br>
+                             attribute _value to store the temperature. <br>
+                           > __get__ Method: Returns the current value of the temperature. <br>
+                           > __set__ Method: Sets the temperature, ensuring it is above absolute zero. If the <br> 
+                           value is too low, it raises a ValueError. <br>
+                          
+                         > __delete__ Method: Prevents the deletion of the temperature attribute by raising an AttributeError. <br></p>
+                         <h2>. Creating custom descriptors</h2>
+                         <p>1. Creating custom descriptors in Python allows you to manage attribute access with specific behaviors. <br>
+                             A custom descriptor is defined by implementing the methods __get__, __set__, and optionally __delete__. <br>
+                           2.  __get__(self, instance, owner): Called to retrieve the attribute from the instance. <br>
+                            3. __set__(self, instance, value): Called to set the attribute value in the instance. <br>
+                            4. __delete__(self, instance): Called to delete the attribute from the instance. <br></p>
+                            <h2>Example</h2>
+                            
+                        <p>Let's create a custom descriptor that ensures an attribute can only hold positive integers.</p>
+                        <div class="code23">
+                            <p>class PositiveInteger: <br>
+                                def __init__(self, name):<br>
+                                    self.name = name  # Name of the attribute<br>
+                                    <br>
+                                def __get__(self, instance, owner):<br>
+                                    return instance.__dict__[self.name]<br>
+                                    <br>
+                                def __set__(self, instance, value):<br>
+                                    if not isinstance(value, int) or value <= 0:<br>
+                                        raise ValueError(f"{self.name} must be a positive integer.")<br>
+                                    instance.__dict__[self.name] = value<br>
+                                    <br>
+                                def __delete__(self, instance):<br>
+                                    raise AttributeError(f"Cannot delete {self.name}.")<br>
+                                    <br>
+                            class Person:<br>
+                                age = PositiveInteger('age')  # Using the custom descriptor<br>
+                                <br>
+                                def __init__(self, age):<br>
+                                    self.age = age  # Set the age using the descriptor<br>
+                                    <br>
+                            # Using the custom descriptor<br>
+                            try:<br>
+                                p1 = Person(30)  # Valid age<br>
+                                print(p1.age)    # Output: 30<br>
+                                <br>
+                                p2 = Person(-5)  # Invalid age (raises exception)<br>
+                            except ValueError as e:<br>
+                                print(e)          # Output: age must be a positive integer.<br>
+                                <br>
+                            # Attempt to set an invalid age<br>
+                            try:<br>
+                                p1.age = 0      # Invalid age (raises exception)<br>
+                            except ValueError as e:<br>
+                                print(e)          # Output: age must be a positive integer.<br>
+                                <br>
+                            # Attempt to delete age<br>
+                            try:<br>
+                                del p1.age      # This should raise an exception<br>
+                            except AttributeError as e:<br>
+                                print(e)          # Output: Cannot delete age.<br>
+                            </p>
+                        </div>
+                        <h2>Explanation</h2>
+                        <p>1.Custom Descriptor Class: The PositiveInteger class implements the descriptor: <br>
+                           <br>
+                          2.  __init__: Initializes the descriptor with the name of the attribute. <br>
+                          3.  __get__: Retrieves the value of the attribute from the instance's __dict__. <br>
+                           4. __set__: Validates that the value is a positive integer. If not, it raises a ValueError. <br>
+                           5. __delete__: Prevents deletion of the attribute by raising an AttributeError. <br></p>
+                           <h2>. Use cases for descriptors in classes</h2>
+                           <p>1.Data Validation: Ensure that values assigned to attributes meet specific criteria. <br>
+                           2. Type Checking: Enforce type constraints on attributes. <br>
+                           3. Lazy Loading: Load values only when they are accessed, which can save resources. <br>
+                           4. Logging Access: Automatically log access to certain attributes. <br>
+                           5. Caching: Store results of expensive computations to improve performance. <br></p>
+
+                           <div class="code24">
+                            <h4>1. Data Validation</h4>
+                            <p>class PositiveInteger: <br>
+                                def __init__(self, name):<br>
+                                    self.name = name<br>
+                                    <br>
+                                def __get__(self, instance, owner):<br>
+                                    return instance.__dict__[self.name]<br>
+                                    <br>
+                                def __set__(self, instance, value):<br>
+                                    if not isinstance(value, int) or value <= 0:<br>
+                                        raise ValueError(f"{self.name} must be a positive integer.")<br>
+                                    instance.__dict__[self.name] = value<br>
+                                    <br><br>
+                            class Product:<br>
+                                price = PositiveInteger('price')<br>
+                                <br>
+                                def __init__(self, price):<br>
+                                    self.price = price<br>
+                                    <br>
+                            # Usage<br>
+                            try:<br>
+                                p = Product(100)  # Valid price<br>
+                                print(p.price)    # Output: 100<br>
+                                p.price = -50     # Invalid price (raises exception)<br>
+                            except ValueError as e:<br>
+                                print(e)  # Output: price must be a positive integer.<br>
+                            </p>
+                            <h4>2.Type Checking</h4>
+                            <p>class StringType: <br>
+                                def __init__(self, name):<br>
+                                    self.name = name<br>
+                                    <br>
+                                def __get__(self, instance, owner):<br>
+                                    return instance.__dict__[self.name]<br>
+                                    <br>
+                                def __set__(self, instance, value):<br>
+                                    if not isinstance(value, str):<br>
+                                        raise TypeError(f"{self.name} must be a string.")<br>
+                                    instance.__dict__[self.name] = value<br>
+                                    <br>
+                            class User:<br>
+                                username = StringType('username')<br>
+                                <br>
+                                def __init__(self, username):<br>
+                                    self.username = username<br>
+                                    <br>
+                            # Usage<br>
+                            try:<br>
+                                user = User("alice")  # Valid username<br>
+                                print(user.username)   # Output: alice<br>
+                                user.username = 123    # Invalid username (raises exception)<br>
+                            except TypeError as e:<br>
+                                print(e)  # Output: username must be a string.<br>
+                            </p>
+                            <h4>3.Lazy Loading</h4>
+                            <p>class LazyProperty: <br>
+                                def __init__(self, func):<br>
+                                    self.func = func<br>
+                                    <br>
+                                def __get__(self, instance, owner):<br>
+                                    value = self.func(instance)<br>
+                                    setattr(instance, self.func.__name__, value)<br>
+                                    return value<br>
+                                    <br>
+                            class DataFetcher:<br>
+                                @LazyProperty<br><br>
+                                def data(self):<br>
+                                    print("Fetching data...")<br>
+                                    return [1, 2, 3, 4, 5]  # Simulate expensive operation<br>
+                                    <br>
+                            # Usage<br>
+                            fetcher = DataFetcher()<br>
+                            print(fetcher.data)  # Fetches and prints data<br>
+                            print(fetcher.data)  # Does not fetch again; uses cached value<br>
+                            </p>
+                            <h4>4.Logging Access</h4>
+                            <p>class LoggedAccess: <br>
+                                def __init__(self, name):<br>
+                                    self.name = name<br>
+                                    <br>
+                                def __get__(self, instance, owner):<br>
+                                    print(f"Accessing {self.name}")<br>
+                                    return instance.__dict__[self.name]<br>
+                                    <br>
+                                def __set__(self, instance, value):<br>
+                                    print(f"Setting {self.name} to {value}")<br>
+                                    instance.__dict__[self.name] = value<br>
+                                    <br>
+                            class Employee:<br>
+                                name = LoggedAccess('name')<br>
+                                <br>
+                                def __init__(self, name):<br>
+                                    self.name = name<br>
+                                    <br>
+                            # Usage<br>
+                            emp = Employee("John")<br>
+                            print(emp.name)  # Access logs "Accessing name"<br>
+                            emp.name = "Jane"  # Logs "Setting name to Jane"<br>
+                            </p>
+                            <h4>5. Caching Results</h4>
+                            <p>class CachedProperty: <br>
+                                def __init__(self, func):<br>
+                                    self.func = func<br>
+                                    <br>
+                                def __get__(self, instance, owner):<br>
+                                    if self.func.__name__ not in instance.__dict__:<br>
+                                        instance.__dict__[self.func.__name__] = self.func(instance)<br>
+                                    return instance.__dict__[self.func.__name__]<br>
+                                    <br>
+                            class Circle:<br>
+                                def __init__(self, radius):<br>
+                                    self.radius = radius<br>
+                                    <br>
+                                @CachedProperty<br>
+                                def area(self):<br>
+                                    print("Calculating area...")<br>
+                                    return 3.14 * (self.radius ** 2)<br>
+                                    <br>
+                            # Usage<br>
+                            circle = Circle(5)<br>
+                            print(circle.area)  # Calculates and prints area<br>
+                            print(circle.area)  # Uses cached value<br>
+                            </p>
+                           </div>
+    </div>
+    <div class="pg5">
+        <h1>KOTLIN</h1>
+        <h1>Kotlin Coroutines:</h1>
+        <h2>. Understanding structured concurrency</h2>
+        <p>Structured concurrency is a programming paradigm that simplifies the management of concurrent tasks. It enforces a structured approach to starting, <br>
+         running, and completing concurrent operations, helping to avoid issues like resource leaks and callback hell. The key idea is to manage the lifecycle of <br>
+          concurrent tasks within a defined scope, ensuring that tasks are completed or canceled in an orderly manner. <br></p>
+          <h2>Example</h2>
+          <p>Here's a simple example of structured concurrency using Python's asyncio library. In this example, we'll create a function that  <br>
+            runs multiple asynchronous tasks and waits for all of them to complete. <br></p>
+            <div class="code25">
+                <p>import asyncio <br>
+                    <br>
+                    async def task(name, duration):<br>
+                        print(f"Task {name} starting")<br>
+                        await asyncio.sleep(duration)<br>
+                        print(f"Task {name} completed after {duration} seconds")<br>
+                        return name<br>
+                        <br>
+                    async def main():<br>
+                        # Create a list of tasks<br>
+                        tasks = [<br>
+                            task("A", 2),<br>
+                            task("B", 1),<br>
+                            task("C", 3)<br>
+                        ]<br>
+                        <br>
+                        # Run the tasks concurrently and wait for all of them to complete<br>
+                        results = await asyncio.gather(*tasks)<br>
+                        print("All tasks completed:", results)<br>
+                        <br>
+                    # Run the main function<br>
+                    asyncio.run(main())<br>
+                    </p>
+            </div>
+            <h2>Output</h2>
+            <div class="code025">
+                <p>Task A starting <br>
+                    Task B starting<br>
+                    Task C starting<br>
+                    Task B completed after 1 seconds<br>
+                    Task A completed after 2 seconds<br>
+                    Task C completed after 3 seconds<br>
+                    All tasks completed: ['A', 'B', 'C']<br>
+                    </p>
+            </div>
+            <h2>Explanation</h2>
+            <p>1.Task Definition: The task function simulates a task that takes a specified amount of time to complete. <br>
+                 It prints when the task starts and when it finishes. <br>
+<br>
+               2. Main Function: The main function creates a list of tasks and uses asyncio.gather to run them concurrently. <br>
+                This method ensures that all tasks are awaited, making sure they complete before moving on. <br>
+                <br>
+                3.Running the Program: asyncio.run(main()) is used to execute the main function. <br></p>
+                <h2>.Communication between coroutines</h2>
+                <p>Channels are a powerful concurrency primitive that enable safe communication between coroutines. They allow coroutines  <br>
+                    to send and receive messages, facilitating synchronization and coordination without needing complex locking mechanisms. <br>
+                 <br>
+                    In Python, channels can be implemented using asyncio.Queue, which serves as a FIFO (first-in, first-out) structure for passing <br>
+                     messages between coroutines. <br></p>
+                     <h2>Example</h2>
+                     <p>Here's an example where one coroutine produces data and another consumes it using a queue:</p>
+                     <div class="code26">
+                        <p>import asyncio <br>
+                            <br>
+                            async def producer(queue):<br>
+                                for i in range(5):<br>
+                                    print(f"Producing {i}")<br>
+                                    await queue.put(i)  # Send data to the queue<br>
+                                    await asyncio.sleep(1)  # Simulate a delay in production<br>
+                                await queue.put(None)  # Signal the consumer to stop<br>
+                                <br>
+                            async def consumer(queue):<br>
+                                while True:<br>
+                                    item = await queue.get()  # Wait for an item from the queue<br>
+                                    if item is None:<br>
+                                        break  # Exit if the producer signals to stop<br>
+                                    print(f"Consuming {item}")<br>
+                                    await asyncio.sleep(2)  # Simulate processing time<br><br>
+                                print("Consumer finished processing.")<br>
+                                <br>
+                            async def main():<br>
+                                queue = asyncio.Queue()  # Create a queue<br>
+                                prod = asyncio.create_task(producer(queue))  # Start the producer<br>
+                                cons = asyncio.create_task(consumer(queue))  # Start the consumer<br>
+                                <br>
+                                await prod  # Wait for the producer to finish<br><br>
+                                await cons  # Wait for the consumer to finish<br>
+                                <br>
+                            # Run the main function<br>
+                            asyncio.run(main())<br>
+                            </p>
+                     </div>
+                     <h2>Output</h2>
+                     <div class="code026">
+                        <p>Producing 0 <br>
+                            Producing 1<br>
+                            Consuming 0<br>
+                            Producing 2<br>
+                            Consuming 1<br>
+                            Producing 3<br><br>
+                            Consuming 2<br>
+                            Producing 4<br>
+                            Consuming 3<br>
+                            Consuming 4<br>
+                            Consumer finished processing.<br>
+                            </p>
+                     </div>
+                   <h2>Explanation</h2>
+                   <p>1.Producer Coroutine: The producer function generates numbers from 0 to 4, puts each number <br>
+                     in the queue, and simulates a delay. It adds a None at the end to signal the consumer to stop. <br>
+                       <br>
+                   2. Consumer Coroutine: The consumer function continuously retrieves items from the queue. <br>
+                    It processes each item and exits when it receives None. <br>
+                    <br>
+                   3. Main Function: In main, we create the queue, start both the producer and consumer coroutines <br>
+                    using asyncio.create_task, and wait for both to complete. <br></p>  
+                    <h2>. Creating custom coroutine builders</h2>
+                    <p>Custom coroutine builders allow you to create reusable constructs that simplify the creation and  <br>
+                        management of coroutines in Python's asyncio. They help encapsulate common patterns, making your <br>
+                         asynchronous code more readable and maintainable. <br></p>
+                         <h2>Example</h2>
+                         <p>In this example, we will create a custom coroutine builder that manages a simple task queue. <br>
+                             The builder will provide methods to add tasks and execute them. <br></p>
+                             <div class="code27">
+                                <p>import asyncio <br>
+                                    <br>
+                                    class TaskBuilder:<br>
+                                        def __init__(self):<br>
+                                            self.queue = asyncio.Queue()<br>
+                                            <br>
+                                        async def add_task(self, task):<br>
+                                            print(f"Adding task: {task}")<br>
+                                            await self.queue.put(task)<br>
+                                            <br>
+                                        async def run_tasks(self):<br>
+                                            while not self.queue.empty():<br>
+                                                task = await self.queue.get()<br>
+                                                print(f"Running task: {task}")<br>
+                                                await self.execute_task(task)<br>
+                                                self.queue.task_done()<br>
+                                                <br>
+                                        async def execute_task(self, task):<br>
+                                            # Simulate task execution time<br>
+                                            await asyncio.sleep(1)<br>
+                                            print(f"Task {task} completed.")<br>
+                                            <br>
+                                    async def main():<br>
+                                        builder = TaskBuilder()<br>
+                                        <br>
+                                        # Adding tasks<br>
+                                        await builder.add_task("Task 1")<br><br>
+                                        await builder.add_task("Task 2")<br>
+                                        await builder.add_task("Task 3")<br>
+                                        <br>
+                                        # Running the tasks<br>
+                                        await builder.run_tasks()<br>
+                                        <br>
+                                    # Run the main function<br>
+                                    asyncio.run(main())<br>
+                                    </p>
+                             </div>
+                             <h2>Output</h2>
+                             <div class="code027">
+                                <p>Adding task: Task 1 <br>
+                                    Adding task: Task 2 <br>
+                                    Adding task: Task 3 <br>
+                                    Running task: Task 1 <br>
+                                    Task Task 1 completed.<br>
+                                    Running task: Task 2<br>
+                                    Task Task 2 completed.<br><br>
+                                    Running task: Task 3<br>
+                                    Task Task 3 completed.<br>
+                                    </p>
+                             </div>
+                             <h2>Explanation</h2>
+                             <p>1.TaskBuilder Class: This class encapsulates the logic for managing tasks. <br>
+                           <br>
+                               >  __init__: Initializes an empty asyncio.Queue to hold tasks. <br>
+                               <br>
+                               > add_task: Asynchronously adds a task to the queue and prints a message. <br>
+                               <br>
+                              >  run_tasks: Continuously retrieves tasks from the queue and runs them.  <br>
+                              It waits for each task to complete. <br>
+                              <br>
+                               > execute_task: Simulates the execution of a task, which takes some time (1 second). <br>
+                               <br>
+                               2. Main Function: In main, we create an instance of TaskBuilder, add a few tasks, and then run them. <br></p>
+                               <h1>Kotlin DSL (Domain-Specific Languages):</h1>
+                               <h2>. Building DSLs using Kotlin's syntax and lambda functions</h2>
+                               <p>A DSL is a mini-language tailored for a specific problem domain, allowing users to write code in <br>
+                                 a way that closely resembles natural language or domain-specific concepts. Kotlin's features make it <br>
+                                  particularly suited for creating DSLs. <br></p>
+                                  <h2>Example</h2>
+                                  <p>Let's create a simple DSL for building HTML documents. The DSL will allow users to construct <br>
+                                     HTML tags using Kotlin's syntax and lambda functions. <br></p>
+                                 <div class="code28">
+                                    <p>// HTML DSL <br>
+                                        <br>
+                                        class Html(val content: StringBuilder = StringBuilder()) {<br>
+                                            fun html(block: Html.() -> Unit) {<br>
+                                                content.append("<html>")<br>
+                                                block()<br>
+                                                content.append("</html>")<br>
+                                            } <br>
+                                            <br>
+                                            fun body(block: Body.() -> Unit) { <br>
+                                                content.append("<body>") <br>
+                                                Body(content).block() <br>
+                                                content.append("</body>") <br>
+                                            } <br>
+                                             <br>
+                                            override fun toString(): String { <br>
+                                                return content.toString()  <br>
+                                            } <br>
+                                        } <br>
+                                         <br>
+                                        class Body(val content: StringBuilder) { <br>
+                                            fun p(text: String) { <br>
+                                                content.append("<p>$text</p>")<br>
+                                            }<br>
+                                            <br>
+                                            fun h1(text: String) {<br>
+                                                content.append("$text")<br>
+                                            }<br>
+                                        }<br>
+                                        <br>
+                                        // Usage of the DSL<br>
+                                        fun main() {<br>
+                                            val html = Html().apply {<br>
+                                                html {<br>
+                                                    body {<br>
+                                                        h1("Hello, World!")<br>
+                                                        p("This is a simple HTML builder DSL in Kotlin.")<br>
+                                                        p("It uses lambda functions for building content.")<br>
+                                                    }<br>
+                                                }<br>
+                                            }<br>
+                                            <br>
+                                            println(html)<br>
+                                        }<br>
+                                        </p>
+                                 </div>  
+                                 <h2>Output</h2> 
+                                 <div class="code028">
+                                 <p><html><body>Hello, World!<p>This is a simple HTML builder DSL in Kotlin.</p><p>It uses lambda <br>
+                                     functions for building content.</p></body></html> <br>
+                                </p>
+                            </div> 
+                            <h2>. Examples of popular Kotlin DSLs like Anko and Ktor.
+                            </h2>
+                            <h3>1. Anko </h3>
+                            <p>Definition: Anko is a Kotlin library that simplifies Android development by providing a DSL <br>
+                                 for UI creation and asynchronous operations. It allows developers to write UI code in a more <br>
+                                  readable and concise manner. <br>
+                                  <h2>Example</h2>
+                                  <div class="code29">
+                                    <p>import android.os.Bundle <br>
+                                        import org.jetbrains.anko.*<br>
+                                        <br>
+                                        class MainActivity : AppCompatActivity() {<br>
+                                            override fun onCreate(savedInstanceState: Bundle?) {<br>
+                                                super.onCreate(savedInstanceState)<br>
+                                                <br>
+                                                // Using Anko DSL to create UI<br>
+                                                setContentView {<br>
+                                                    verticalLayout {<br>
+                                                        val textView = textView("Hello, Anko!") {<br>
+                                                            textSize = 24f<br>
+                                                        }<br>
+                                                        <br>
+                                                        button("Click me") {<br>
+                                                            setOnClickListener {<br>
+                                                                textView.text = "Button clicked!"<br>
+                                                            }<br>
+                                                        }<br>
+                                                    }<br>
+                                                }<br>
+                                            }<br>
+                                        }<br>
+                                        </p>
+                                  </div>
+                                  <h2>Output</h2>
+                                  <div class="code029">
+                                      
+                                  </div>
+<br>
+                                <h3>2. Ktor</h3>
+                                <p>Definition: Ktor is a Kotlin framework for building asynchronous servers and clients in <br>
+                                     connected systems. It provides a DSL for defining HTTP servers and clients in a straightforward manner. <br></p>
+                                     <h2>Example</h2>
+                                     <div class="code29">
+                                    <p>import io.ktor.application.* <br>
+                                        import io.ktor.http.*<br>
+                                        import io.ktor.response.*<br>
+                                        import io.ktor.routing.*<br>
+                                        import io.ktor.server.engine.*<br>
+                                        import io.ktor.server.netty.*<br>
+                                        <br>
+                                        fun main() {<br>
+                                            embeddedServer(Netty, port = 8080) {<br>
+                                                routing {<br>
+                                                    get("/") {<br>
+                                                        call.respondText("Hello, Ktor!", ContentType.Text.Plain)<br>
+                                                    }<br>
+                                                    get("/about") {<br>
+                                                        call.respondText("This is a Ktor server.", ContentType.Text.Plain)<br>
+                                                    }<br>
+                                                }<br>
+                                            }.start(wait = true)<br>
+                                        }<br>
+                                        </p>    
+                                    
+                                    </div>
+                                     
+    </div>
+
+</body>
+</html>

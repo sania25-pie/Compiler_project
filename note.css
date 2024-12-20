@@ -1,0 +1,262 @@
+/* body{
+    min-height: 120vh; 
+
+    background-image: url("https://5.imimg.com/data5/KO/UC/MY-56550809/c-training-in-rohini.png");
+    background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+} */
+h1
+{
+    font-size: 50px;
+    font-weight: bold;
+    color:rgb(12, 12, 12);
+    margin-left: 25%;
+
+}
+.pg1{
+    min-height: 120vh; 
+
+    background-image: url("https://5.imimg.com/data5/KO/UC/MY-56550809/c-training-in-rohini.png");
+    background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+    color:rgb(9, 9, 9);
+}
+h2{
+    margin-left: 1%;
+    font-size: 30px;
+    font-weight: bold;
+    color: black;
+}
+p{
+    margin-left: 3%;
+    font-size: 18px;
+    font-weight: bold;
+}
+.code1{
+    color: rgb(188, 9, 9);
+}
+.code2
+{
+    color: rgb(188, 9, 9);
+}
+.code3{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+   
+}
+.code4{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code04{
+    color: rgb(17, 213, 92);
+    font-weight: bold;
+}
+.code5{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code05{
+    color: rgb(17, 213, 92);
+    font-weight: bold;
+}
+.code6{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code06{
+    color: rgb(17, 213, 92);
+    font-weight: bold;
+}
+.code7{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code07{
+    color: rgb(17, 213, 92);
+    font-weight: bold;
+}
+.code8{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code08{
+    color: rgb(17, 213, 92);
+    font-weight: bold;
+}
+.code9{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code09{
+    color: rgb(17, 213, 92);
+    font-weight: bold;
+}
+.code10{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code11{
+    color: rgb(188, 9, 9);
+    font-weight: bold;
+}
+.code011{
+    color: rgb(17, 213, 92);
+    font-weight: bold;
+}
+.pg2{
+    min-height: 120vh; 
+
+    background-image: url("https://hematechnoworld.in/wp-content/uploads/2023/11/Untitled-design.png");
+    background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.code12{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+.code13{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+h4{
+    margin-left: 1%;
+    
+    font-weight: bold;
+    color: black;
+}
+.code14{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+.code014{
+    color: rgb(3, 186, 73);
+    font-weight: bold;
+}
+.code15{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+.code015{
+    color: rgb(3, 186, 73);
+    font-weight: bold;
+}
+.pg3{
+    min-height: 120vh; 
+
+    background-image: url("https://blog.eduonix.com/wp-content/uploads/2015/12/C-Tutorial-6-Ternary-Operator-and-switch-Statement.png");
+    background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.code16{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+.code016{
+    color: rgb(12, 58, 3);
+    font-weight: bold;
+}
+.code17{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+.code017{
+    color: rgb(12, 58, 3);
+    font-weight: bold;
+}
+.code18{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+.code018{
+    color: rgb(12, 58, 3);
+    font-weight: bold;
+}
+.code19{
+    color: rgb(242, 15, 15);
+    font-weight: bold;
+}
+.code019{
+    color: rgb(12, 58, 3);
+    font-weight: bold;
+}
+.pg4{
+    min-height: 120vh; 
+
+    background-image: url("https://i.pinimg.com/736x/4b/c8/6a/4bc86aa79e4c4af472feeb25b9ef00e9.jpg");
+    background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+.code20{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.code020{
+    color: rgb(88, 235, 59);
+    font-weight: bold;
+}
+.code21{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.code021{
+    color: rgb(88, 235, 59);
+    font-weight: bold;
+}
+.code22{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.code23{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.code24{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.pg5{
+    min-height: 120vh; 
+
+    background-image: url("https://www.solutionanalysts.com/blog/wp-content/uploads/2021/02/kotlin-course-image.jpg");
+    background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center; 
+    }
+.code25{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+    }
+.code025{
+    color: rgb(16, 83, 2);
+    font-weight: bold;
+}
+.code26{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.code026{
+    color: rgb(16, 83, 2);
+    font-weight: bold;
+}
+.code27{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.code027{
+    color: rgb(16, 83, 2);
+    font-weight: bold;
+}
+.code28{
+    color: rgb(252, 25, 25);
+    font-weight: bold;
+}
+.code028{
+    color: rgb(16, 83, 2);
+    font-weight: bold;
+}

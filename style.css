@@ -1,0 +1,114 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	
+	min-height: 120vh;
+	background-image: url("https://cdn.magicdecor.in/com/2024/02/06154140/Colorful-Gaming-Console-Wallpaper-for-Gamers.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	
+}
+
+
+nav{
+	background-color: #8080c0;
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+}
+
+nav ul{
+	width: 100%;
+	list-style: none;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+nav li{
+	height: 50px;
+	
+}
+nav a{
+	height: 100%;
+	padding: 0 30px;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	color: white;
+}
+nav a:hover {
+ background-color:rgb(182, 156, 247);
+}
+.text-box{
+	width: 90%;
+		color: #ffffff;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform:translate(-50%,-50%);
+	text-align: center;
+}
+.text-box h1{
+	font-size: 59px;
+}
+.text-box p{
+	margin: 10px 0 40px;
+	font-size: 20px;
+	color:  #ffffff;
+	font-weight: bold;;
+}
+
+.one-button{
+	
+	display: inline-block;
+	text-decoration: none;
+	color: white;
+	border: 2px solid white;
+	padding: 12px 34px;
+	font-size: 18px;
+	background:  #b36ff7;
+	position: relative;
+	cursor: pointer;
+	}
+.one-button:hover {
+	border: 2px solid #48068a;
+	background: #48068a;
+	transition:1s;
+}	
+
+/* @media(max-width:700px){
+	.text-box h1{
+	font-size: 20px;
+	
+    }
+    nav ul{
+	display: block;
+}
+nav li{
+	display: block;
+	
+}
+nav a{
+	position: absolute;
+	background: #48068a;
+	height: 100vh;
+	width: 200px;
+	top: 0;
+	right: 0;
+	text-align: left;
+	z-index: 2;
+}
+nav{
+	position: absolute;
+	background: #48068a;
+	height: 100vh;
+	width: 200px;
+	top: 0;
+	right: 0;
+	text-align: left;
+	z-index: 2;
+	
+}
+	
+} */

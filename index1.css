@@ -1,0 +1,143 @@
+body {
+    margin: 0;
+}
+
+.main {
+    height: 704px;
+    width: 100%;
+    background: black;
+}
+
+.header {
+    height: 100px;
+    width: 100px;
+    background-image: url(3.png);
+    background-size: 100% 100%;
+}
+
+.headB {
+    position: relative;
+    left: 44%;
+    top: -10%;
+    height: 45px;
+    width: 8%;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: rgb(255, 255, 255);
+    color: #080808;
+    border: 2px solid rgb(154, 85, 193);
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    border-radius: 30px;
+    box-shadow: 3px 0 20px rgb(174, 46, 249);
+}
+
+.headB:hover {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    box-shadow: 3px 0 20px rgb(154, 85, 193);
+    border: 2px solid rgb(174, 46, 249);
+}
+
+.logo {
+    height: 450px;
+    width: 450px;
+    background-image: url(2.png);
+    background-size: 100% 100%;
+    position: relative;
+    left: 35%;
+    bottom: 12%;
+    opacity: 0; /* Start with invisible logo */
+    animation: slide-up 1s ease-out forwards; /* Adds the slide-up animation */
+}
+
+.gt {
+    position: relative;
+    bottom: 13%;
+    right: 0.9%;
+    height: 45px;
+    width: 15%;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: black;
+    color: #fff;
+    border: 2px solid white;
+    font-size: 15px;
+    font-weight: 600;
+    outline: none;
+    border-radius: 30px;
+    box-shadow: 3px 0 20px rgb(174, 46, 249);
+    opacity: 0; /* Initially invisible */
+    animation: slide-up 2s ease-out forwards;
+    animation-delay: 1s; /* Delay animation for 1 second (starts after logo finishes) */
+}
+
+.gt:hover {
+    box-shadow: 3px 0 20px rgb(195, 234, 255);
+}
+
+/* Keyframes for slide-up animation */
+@keyframes slide-up {
+    0% {
+        transform: translateY(100px); /* Start below its final position */
+        opacity: 0; /* Invisible at the start */
+    }
+    100% {
+        transform: translateY(0); /* Final position */
+        opacity: 1; /* Fully visible */
+    }
+}
+
+.tag {
+    height: 50px;
+    width: 550px;
+    color: white; /* Text color */
+    font-size: 35px;
+    position: relative;
+    left: 32%;
+    bottom: 8%;
+    font-family: 'Dancing Script', cursive; /* Calligraphy font */
+    overflow: hidden; /* Ensures overflow is hidden for typewriter effect */
+    white-space: nowrap; /* Prevents text wrapping */
+    animation: slide-up 1.5s ease-out forwards; /* Slide up animation for tag */
+}
+
+.glow {
+    text-shadow: 
+        0 0 5px rgba(186, 85, 211, 0.8), /* Light purple glow */
+        0 0 10px rgba(186, 85, 211, 0.7), 
+        0 0 15px rgba(186, 85, 211, 0.6), 
+        0 0 20px rgba(186, 85, 211, 0.5);
+    animation: glowing 1.5s infinite alternate; /* Glow animation */
+}
+
+@keyframes glowing {
+    0% {
+        text-shadow: 
+            0 0 5px rgba(186, 85, 211, 0.8), 
+            0 0 10px rgba(186, 85, 211, 0.7), 
+            0 0 15px rgba(186, 85, 211, 0.6), 
+            0 0 20px rgba(186, 85, 211, 0.5);
+    }
+    100% {
+        text-shadow: 
+            0 0 20px rgba(186, 85, 211, 1), 
+            0 0 30px rgba(186, 85, 211, 0.8), 
+            0 0 40px rgba(186, 85, 211, 0.6), 
+            0 0 50px rgba(186, 85, 211, 0.4);
+    }
+}
+
+.typewriter {
+    animation: typing 4s steps(20, end); /* Typewriter effect */
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 45%; }
+}
+
+

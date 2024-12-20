@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+    background: linear-gradient( #ffffff,#c3f0ff, #4b0082);
+}
+
+.totalcard {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10%;
+}
+
+.totalcard .card {
+    margin: 40px;
+    width: 380px;
+    height: 500px;
+    border-radius: 10px;
+    background: #fff;
+    display: flex;
+    flex-direction: column; /* Arrange card content vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: space-between; /* Space content evenly */
+    text-align: center;
+    padding: 10px; /* Add some padding */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4),
+                0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.card:nth-child(1) {
+    border-top: 5px solid green;
+}
+
+.card:nth-child(2) {
+    border-top: 5px solid blue;
+}
+
+.card:nth-child(1):hover {
+    box-shadow: inset 0px 0px 10px rgba(0, 255, 0, 0.5),
+                1px 1px 30px rgba(0, 255, 0, 0.5);
+}
+
+.card:nth-child(2):hover {
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 255, 0.5),
+                1px 1px 30px rgba(0, 0, 255, 0.5);
+}
+
+.card:nth-child(3) {
+    border-top: 5px solid rgb(255, 0, 115);
+}
+
+.card:nth-child(4) {
+    border-top: 5px solid rgb(37, 115, 115);
+}
+
+.card:nth-child(3):hover {
+    box-shadow: inset 0px 0px 10px rgba(255, 0, 170, 0.5),
+                1px 1px 30px rgba(255, 0, 170, 0.5);
+}
+
+.card:nth-child(4):hover {
+    box-shadow: inset 0px 0px 10px rgba(0, 129, 124, 0.5),
+                1px 1px 30px rgba(0, 99, 95, 0.5);
+}
+
+
+.card:nth-child(5) {
+    border-top: 5px solid rgb(255, 251, 0);
+}
+.card:nth-child(5):hover {
+    box-shadow: inset 0px 0px 10px rgb(255, 251, 0),
+                1px 1px 30px rgb(255, 251, 0);
+}
+
+
+.totalcard .card img {
+    width: 100px;
+    height: 100px;
+    margin: 20px 0; /* Center image vertically with top and bottom margin */
+    cursor: pointer;
+    border-radius: 50px;
+    transition-duration: 0.8s;
+    margin-bottom: -3%;
+}
+
+.totalcard .card img:hover {
+    transform: scale(3.5);
+    border-radius: 0;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#detail p {
+    font-size: 15px;
+    line-height: 25px;
+    font-variant: small-caps;
+    margin: 25px 0;
+}
+
+#detail button {
+    outline: none;
+    border-radius: 10px;
+    border-style: none;
+    border: 1px solid black;
+    padding: 9px 25px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    margin: 20px 0;
+}
+
+#detail a {
+    text-decoration: none;
+    margin: 20px auto;
+    align-self: center;
+}
+
+.btn-bhawna:hover {
+    background: rgba(211, 255, 211, 0.7);
+    color: #000000;
+}
+
+.btn-bhawna2:hover {
+    background: rgb(199, 199, 253);
+    color: #000000;
+}
+
+.btn-bhawna3:hover {
+    background: rgb(255, 180, 180);
+    color: #000000;
+}
+
+.btn-bhawna4:hover {
+    background: rgb(117, 175, 166);
+    color: #000000;
+}
+.btn-bhawna5:hover {
+    background: rgb(255, 251, 0);
+    color: #000000;
+}
+
+.card-title {
+    font-size: 30px;
+    color: #343A40;
+    padding: 20px;
+    font-weight: 700;
+    text-align: center;
+}

@@ -1,0 +1,28 @@
+body{
+    min-height: 120vh; 
+    background-image:url("https://img.freepik.com/free-vector/puzzle-solving-question-mark-background-guidance-support_1017-43014.jpg");
+    background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+    object-fit:cover;
+    background-attachment:fixed;
+}
+h1
+{
+    font-size: 50px;
+    font-weight: bold;
+    color:rgb(12, 12, 12);
+    margin-left: 25%;
+
+}
+h1:hover{
+    color: rgb(226, 41, 41);
+    text-decoration:underline;
+    opacity:0.5;
+    font-size:60px;
+}
+p{
+    margin-left: 3%;
+    font-size: 18px;
+    font-weight: bold;
+}
